@@ -1,6 +1,6 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Collection, Db } from "mongodb";
-import { User } from "src/models/entities/user";
+import { User } from "src/models/entities/User";
 import { hashPassword } from "src/utils/auth";
 
 
