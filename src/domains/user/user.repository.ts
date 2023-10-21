@@ -1,6 +1,8 @@
 import { Inject, Injectable } from "@nestjs/common";
 import { Collection, Db } from "mongodb";
-import { User } from "src/models/entities/User";
+
+import { AuthRegisterReqDto } from "src/models/dto/Request/AuthReqDto";
+import { User, UserRoles } from "src/models/entities/User";
 import { hashPassword } from "src/utils/auth";
 
 
@@ -21,11 +23,15 @@ export class UserRepository {
         return user;
     }
 
-    async createUser(user: User): Promise<User> {
-        user.password = hashPassword(user.password);
-        const newUser = await this.userCollection.insertOne(user);
+    async createUser(authRegisterReqDto: AuthRegisterReqDto): Promise<User> {
+        authRegisterReqDto.password = await hashPassword(authRegisterReqDto.password);
+        authRegisterReqDto.role = UserRoles.READER.toString();
 
-        return this.userCollection.findOne(newUser.insertedId);
+        const newUser = await this.userCollection.insertOne(authRegisterReqDto);
+
+        const insertedUser = await this.userCollection.findOne({_id: newUser.insertedId});
+
+        return insertedUser;
     }
 
 }

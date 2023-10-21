@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { UserRepository } from './user.repository';
 import { User } from 'src/models/entities/User';
+import { AuthRegisterReqDto } from 'src/models/dto/Request/AuthReqDto';
 
 @Injectable()
 export class UserService {
@@ -12,13 +13,12 @@ export class UserService {
     return this.userRepository.listUsers();
   }
 
+  async findByEmail(email: string): Promise<User> {
+    return this.userRepository.findByEmail(email);
+  }
 
-  async createUser(user: User): Promise<User> {
 
-    if(this.userRepository.findByEmail(user.email)){
-      throw new HttpException('Email already exists', HttpStatus.BAD_REQUEST);
-    }
-
-    return this.userRepository.createUser(user);
+  async createUser(authRegisterReqDto: AuthRegisterReqDto): Promise<User> {
+    return await this.userRepository.createUser(authRegisterReqDto);
   }
 }

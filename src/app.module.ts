@@ -5,9 +5,15 @@ import { AppService } from './app.service';
 import { BlogModule } from './domains/blog/blog.module';
 import { UserModule } from './domains/user/user.module';
 import { MongoModule } from './domains/mongo/mongo.module';
+import { AuthModule } from './domains/auth/auth.module';
 
 @Module({
-  imports: [BlogModule, UserModule, MongoModule, ConfigModule.forRoot()],
+  imports: [
+    BlogModule,
+    AuthModule,
+    UserModule,
+    MongoModule,
+    ConfigModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

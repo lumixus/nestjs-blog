@@ -1,5 +1,13 @@
+export enum UserRoles {
+    ADMIN = 'admin',
+    READER = 'reader'
+}
+
+
 export class User {
-    fullName: string;
+    _id?: string;
+    username: string;
     email: string;
     password: string;
+    role: string;
 }
